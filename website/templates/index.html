@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MachineLearning</title>
+    <link 
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" 
+    crossorigin="anonymous"
+    >
+    <style>
+        body{
+            background-color: #eee;
+        }
+        h1{
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            padding-top: 40px;
+        }
+        .container{
+            width: 50%;
+            margin-top: 50px;
+        }
+        .contInput{
+            margin: 0px auto;
+            width: 50%;
+            padding-top: 50px;
+        }
+        .results{
+            width: 20%;
+            margin: 0px auto;
+            padding-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    {% if clf %}
+        {% if clf == "1" %} <h1>DecisionTreeClassifier</h1> {% endif %}
+        {% if clf == "2" %} <h1>MLPClassifier</h1> {% endif %}
+        {% if clf == "3" %} <h1>KNeighborsClassifier</h1> {% endif %}
+        {% if clf == "4" %} <h1>RandomForestClassifier</h1> {% endif %}
+    {% endif %}
+    <form action="/" method="POST" class="container">
+        <select class="form-select form-select-lg mb-3" aria-label="Large select example" name="clf_selected">
+            <option selected>Escolha seu Classificador</option>
+            <option value="1">DecisionTreeClassifier</option>
+            <option value="2">MLPClassifier</option>
+            <option value="3">KNeighborsClassifier</option>
+            <option value="4">RandomForestClassifier</option>
+        </select>
+        <button type="submit" class="btn btn-primary">submit</button>
+    </form>
+    {% if clf %}
+        {% if clf == "1" %}
+            <form action="/treinar/1" method="POST" class="contInput">
+                <ul>
+                    <li>
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">max_depth</span>
+                            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="var1">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">random_state</span>
+                            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="var2">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">max_leaf_nodes</span>
+                            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="var3">
+                        </div>
+                    </li>
+                </ul>
+                <button type="submit" class="btn btn-outline-primary">Treinar</button>
+            </form>
+        {% endif %}
+        {% if clf == "2" %}
+            <form action="/treinar/2" method="POST" class="contInput">
+                <ul>
+                    <li>
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">hidden_layer_sizes</span>
+                            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="var1">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">random_state</span>
+                            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="var2">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">learning_rate</span>
+                            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="var3">
+                        </div>
+                    </li>
+                </ul>
+                <button type="submit" class="btn btn-outline-primary">Treinar</button>
+            </form>
+        {% endif %}
+        {% if clf == "3" %}
+            <form action="/treinar/3" method="POST" class="contInput">
+                <ul>
+                    <li>
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">n_neighbors</span>
+                            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="var1">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">leaf_size</span>
+                            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="var2">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">power_parameter</span>
+                            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="var3">
+                        </div>
+                    </li>
+                </ul>
+                <button type="submit" class="btn btn-outline-primary">Treinar</button>
+            </form>
+        {% endif %}
+        {% if clf == "4" %}
+            <form action="/treinar/4" method="POST" class="contInput">
+                <ul>
+                    <li>
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">n_estimators</span>
+                            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="var1">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">max_depth</span>
+                            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="var2">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">max_leaf_nodes</span>
+                            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="var3">
+                        </div>
+                    </li>
+                </ul>
+                <button type="submit" class="btn btn-outline-primary">Treinar</button>
+            </form>
+        {% endif %}
+    {% endif %}
+    <div class="results">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Acurácia do classificador
+                <span class="badge bg-primary rounded-pill">{{ acc }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Macro average score
+                <span class="badge bg-primary rounded-pill">{{ macro }}</span>
+            </li>
+        </ul>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
+            crossorigin="anonymous">
+    </script>
+</body>
+</html>
