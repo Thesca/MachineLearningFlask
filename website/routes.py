@@ -19,6 +19,8 @@ def homepage():
     
 @app.route("/treinar/<int:clf_selected>", methods=['GET', 'POST'])
 def treinamento(clf_selected):
+    from flask import url_for
+    from random import randint
     from matplotlib import pyplot as plt
     from sklearn.datasets import load_iris
     from sklearn import tree
@@ -38,21 +40,21 @@ def treinamento(clf_selected):
 
     if request.method == 'POST':
         print(request.form)
-        var1 =  request.form['var1']
-        var2 =  request.form['var2']
-        var3 =  request.form['var3']
+        var1 =  int(request.form['var1'])
+        var2 =  int(request.form['var2'])
+        var3 =  int(request.form['var3'])
         if(clf_selected == 1):
             dtClf = DecisionTreeClassifier(max_depth=var1, random_state=var2, max_leaf_nodes=var3)
             dtClf.fit(X_train, y_train)
             clfAcc = dtClf.score(X_test, y_test)
             y_pred = dtClf.predict(X_test)
         elif(clf_selected == 2):
-            mlpClf = MLPClassifier(hidden_layer_sizes=var1, random_state=var2, learning_rate=var3)
+            mlpClf = MLPClassifier(hidden_layer_sizes=var1, random_state=var2, max_iter=var3)
             mlpClf.fit(X_train, y_train)
             clfAcc = mlpClf.score(X_test, y_test)
             y_pred = mlpClf.predict(X_test)
         elif(clf_selected == 3):
-            knnClf = KNeighborsClassifier(n_neighbors=var1, leaf_size=var2, power_parameter=var3)
+            knnClf = KNeighborsClassifier(n_neighbors=var1, leaf_size=var2, p=var3)
             knnClf.fit(X_train, y_train)
             clfAcc = knnClf.score(X_test, y_test)
             y_pred = knnClf.predict(X_test)
@@ -65,9 +67,11 @@ def treinamento(clf_selected):
         classes = iris.target_names.tolist()
         disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=classes)
         disp.plot()
-        plt.show()
+        index = randint(1, 1024)
+        plt.savefig(f"C:/Users/thiago/OneDrive/Desktop/TrabalhoFimFlask/website/static/img/img_{index}.png")
         macroAvg = f1_score(y_test, y_pred, average='macro')
-        return render_template('index.html', acc=clfAcc, macro=macroAvg)
+        arq = f'img_{index}.png'
+        return render_template('index.html', acc=clfAcc, macro=macroAvg, img_fig=arq)
     else:
         return render_template('index.html')
 
